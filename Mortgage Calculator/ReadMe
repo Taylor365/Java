@@ -1,0 +1,5 @@
+Download the .jar file to run this calculator (You must have a Java runtime installed to run the .jar).
+
+Enter the amount of the mortgage followed by the length and interest rate for the mortgage and press calculate to see the results.
+
+All textfields require integers. The interest textfield can except decimals (e.g. 3.5)
