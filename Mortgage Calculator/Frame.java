@@ -135,7 +135,7 @@ public class Frame extends JFrame {
 					
 					outputLabel2.setText("* Please enter the term of the loan in years.");
 					termLabel.setText("Term of Mortgage :	*");
-				}else if(!interText.matches("[0-9]+.[0-9]+")){
+				}else if(!interText.matches("[0-9]+.[0-9]+") && !interText.matches("[0-9]+")){
 					termLabel.setText("Term of Mortgage :");
 					outputLabel2.setText(null);
 					
@@ -149,9 +149,9 @@ public class Frame extends JFrame {
 					intLabel.setText("Interest Rate :");
 					
 					interestCalculation(princeInt, termInt, interInt);
-					outputLabel.setText("<html>Your monthly repayments will be: " + "€" + NumberFormat.getNumberInstance().format(total));
-					outputLabel2.setText("Your total interest paid for the loan will be: " + "€" + NumberFormat.getNumberInstance().format(totalInt));
-					outputLabel3.setText("Total paid back to the bank: " + "€" + NumberFormat.getNumberInstance().format((totalInt + princeInt)));
+					outputLabel.setText("<html>Your monthly repayments will be: " + "â‚¬" + NumberFormat.getNumberInstance().format(total));
+					outputLabel2.setText("Your total interest paid for the loan will be: " + "â‚¬" + NumberFormat.getNumberInstance().format(totalInt));
+					outputLabel3.setText("Total paid back to the bank: " + "â‚¬" + NumberFormat.getNumberInstance().format((totalInt + princeInt)));
 				}
 			}
 		});	
