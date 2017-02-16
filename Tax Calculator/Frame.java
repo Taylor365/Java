@@ -169,22 +169,25 @@ public class Frame extends JFrame {
 		int taxCred = 3300;
 		
 		//We check what tax bracket the salary entered falls into and adjust the calculation to fit.
-		if(wage < 13000){
+		if(wage <= 13000){
 			prsiC = 0;
 			totalTax = 0;
-		}else if(wage > 13000 && wage < 18772){
+		}else if(wage > 13000 && wage <= 18772){
 			uscC = (12012 * 0.005) + ((wage - 12012) * 0.025);
 			incC = (wage * lowRate) - taxCred;
-			prsiC = 0;			
+			prsiC = 0;
+			if(wage > 18304){
+				prsiC = wage * 0.04;
+			}
 			if(incC < 0){
 				incC = 0;
 			}
 				
-		}else if(wage > 18772 && wage < 33800){
+		}else if(wage > 18772 && wage <= 33800){
 			uscC = (12012 * 0.005) + (6760 * 0.025) + ((wage - 18772) * 0.05);
 			incC = (wage * lowRate) - taxCred;
 			
-		}else if(wage > 33800 && wage < 70044){
+		}else if(wage > 33800 && wage <= 70044){
 			uscC = (12012 * 0.005) + (6760 * 0.025) + ((wage - 18772) * 0.05);
 			incC = (((33800 * lowRate) - taxCred) + ((wage - 33800) * highRate));			
 			
