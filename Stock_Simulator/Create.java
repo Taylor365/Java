@@ -22,21 +22,21 @@ public class Create {
 			
 			//Creating the portfolio table:
 			String sql = "CREATE TABLE portfolio (" 
-            + "idNum INT NOT NULL AUTO_INCREMENT,"  
-            + "stocktick VARCHAR(255),"
-            + "stock VARCHAR(255),"
-            + "ask DOUBLE(10,2), "
-            + "bid DOUBLE(10,2), "
-            + "amount INT,"
-            + "cost DOUBLE(10,2),"
-            + "PRIMARY KEY(idNum))";
+            		+ "idNum INT NOT NULL AUTO_INCREMENT,"  
+            		+ "stocktick VARCHAR(255),"
+            		+ "stock VARCHAR(255),"
+            		+ "ask DOUBLE(10,2), "
+            		+ "bid DOUBLE(10,2), "
+            		+ "amount INT,"
+            		+ "cost DOUBLE(10,2),"
+            		+ "PRIMARY KEY(idNum))";
 			
 			state.executeUpdate(sql);
 			
 			//Creating the funds table:
 			sql = "CREATE TABLE funds (" 
-            + "initial DOUBLE(10,2), "
-            + "current DOUBLE(10,2))";
+            		+ "initial DOUBLE(10,2), "
+            		+ "current DOUBLE(10,2))";
 			
 			state.executeUpdate(sql);
 			
