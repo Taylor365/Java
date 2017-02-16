@@ -9,7 +9,7 @@ public class Main {
 	public static void main(String[] args) {
 		f = new Frame();
 		f.setTitle("Tax Calculator");
-		f.setSize(860, 300);
+		f.setSize(600, 500);
 		f.setLocationRelativeTo(null);
 		f.setVisible(true);
 		f.salary.requestFocusInWindow();
