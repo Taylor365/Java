@@ -1,0 +1,5 @@
+This is a Java Stock Market Application that retrieves real-time information from the NASDAQ and outputs the results to the user. The user can enter any stock tick symbol (E.G. GOOG = google, AMZN = Amazon, etc.) and the relevant information will be displayed.
+
+The user can then decide to buy the stock or sell the stock depending on if they own it already. This then corresponds with a back-end mySQL database that keeps track of what stocks where purchased.
+
+The user also starts out with a fake set of funds (€20,000) that track the profitability of the users trades.
