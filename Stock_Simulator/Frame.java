@@ -43,15 +43,15 @@ public class Frame extends JFrame {
 	
 	//Setting up connection for retrieving stock info
 	String nextLine;
-    URL url = null;
-    URLConnection urlConn = null;
-    InputStreamReader  inStream = null;
-    BufferedReader buff = null;
-    //
+    	URL url = null;
+    	URLConnection urlConn = null;
+    	InputStreamReader  inStream = null;
+    	BufferedReader buff = null;
+    	//
     
-    JLabel columnLabel = new JLabel("ID           || Stock Tick   ||Stock Name||       Buy        ||        Sell          ||     Amount     ||     Cost");
-    JLabel funds = new JLabel();
-    double current;
+    	JLabel columnLabel = new JLabel("ID           || Stock Tick   ||Stock Name||       Buy        ||        Sell          ||     Amount     ||     Cost");
+    	JLabel funds = new JLabel();
+    	double current;
     
 	public Frame(){
 		
@@ -105,44 +105,44 @@ public class Frame extends JFrame {
 		searchPanel.setLayout(layout); 
 		gbcS.gridx = 0;
 		gbcS.gridy = 0;
-        searchPanel.add(stockLabel, gbcS);
+        	searchPanel.add(stockLabel, gbcS);
 		gbcS.gridx = 1;
 		gbcS.gridy = 0;
-        searchPanel.add(stock, gbcS);
+        	searchPanel.add(stock, gbcS);
 		gbcS.gridx = 2;
 		gbcS.gridy = 0;
-        searchPanel.add(calc, gbcS);
+        	searchPanel.add(calc, gbcS);
 		gbcS.gridx = 0;
 		gbcS.gridy = 3;
-        searchPanel.add(askLabel, gbcS);
+        	searchPanel.add(askLabel, gbcS);
 		gbcS.gridx = 0;
 		gbcS.gridy = 4;
-        searchPanel.add(bidLabel, gbcS);
-        //
+        	searchPanel.add(bidLabel, gbcS);
+        	//
         
-        //BUY PANEL
-        JPanel buyPanel = new JPanel();
-        buyPanel.setLayout(layout);
-        JButton buy = new JButton("Purchase");
-        JButton calcBuy = new JButton("Calculate Quote");
-        JLabel buyLabel = new JLabel("How many shares do you wish to buy? ");
-        JLabel confirmLabel = new JLabel("");        
+        	//BUY PANEL
+        	JPanel buyPanel = new JPanel();
+        	buyPanel.setLayout(layout);
+        	JButton buy = new JButton("Purchase");
+        	JButton calcBuy = new JButton("Calculate Quote");
+        	JLabel buyLabel = new JLabel("How many shares do you wish to buy? ");
+        	JLabel confirmLabel = new JLabel("");        
 		//
 		
 		//SELL PANEL
-        JPanel sellPanel = new JPanel();
-        sellPanel.setLayout(layout);
-        JButton sell = new JButton("Sell");
-        JLabel seStock = new JLabel();
-        //
+        	JPanel sellPanel = new JPanel();
+        	sellPanel.setLayout(layout);
+        	JButton sell = new JButton("Sell");
+        	JLabel seStock = new JLabel();
+        	//
         
-        //PORTFOLIO PANEL
-        JPanel portfolioPanel = new JPanel();
-        //
+        	//PORTFOLIO PANEL
+        	JPanel portfolioPanel = new JPanel();
+        	//
         
-        //Adding panels to the frame
-        add(menuButtonPanel,BorderLayout.NORTH);
-        add(searchPanel,BorderLayout.CENTER);
+        	//Adding panels to the frame
+        	add(menuButtonPanel,BorderLayout.NORTH);
+        	add(searchPanel,BorderLayout.CENTER);
 		add(status, BorderLayout.SOUTH);
 			
 		fileNew.addActionListener(new ActionListener(){
