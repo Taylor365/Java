@@ -1,5 +1,5 @@
 Download the .jar file to run this calculator (You must have a Java runtime installed to run the .jar).
 
-Enter your yearly salary and press calculate. The results will show the breakdown of taxxes as of 2017.
+Enter your yearly salary and press calculate. The results will show the breakdown of taxes as of 2017.
 
 The yearly salary textfield requires an integer type.
