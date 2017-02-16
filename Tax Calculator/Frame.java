@@ -189,7 +189,7 @@ public class Frame extends JFrame {
 			incC = (((33800 * lowRate) - taxCred) + ((wage - 33800) * highRate));			
 			
 		}else if(wage > 70044){
-			uscC = (12012 * 0.005) + (6760 * 0.025) + (15028 * 0.05) + ((wage - 70044) * 0.08);
+			uscC = (12012 * 0.005) + (6760 * 0.025) + (51271.99 * 0.05) + ((wage - 70044) * 0.08);
 			incC = (((33800 * lowRate) - taxCred) + ((wage - 33800) * highRate));			
 		}
 		
