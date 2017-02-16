@@ -11,7 +11,7 @@ public class Main {
 	public static void main(String[] args) {
 		f = new Frame();
 		f.setTitle("Mortgage Calculator");
-		f.setSize(800, 200);
+		f.setSize(700, 400);
 		f.setLocationRelativeTo(null);
 		f.setVisible(true);
 		f.prince.requestFocusInWindow();
