@@ -3,13 +3,11 @@ package stockSim;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
+import java.net.*;
 import java.sql.*;
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Vector;
+import java.util.*;
+
 
 import javax.swing.*;
 
@@ -33,6 +31,8 @@ public class Frame extends JFrame {
 	String[] words = new String[10];
 	double amountInt = 0;
 	double askInt;
+	double loss = 18000;
+	double profit = 22000;
 	
 	JLabel status = new JLabel("Welcome");
 	JTextField stock = new JTextField(5);
@@ -52,6 +52,13 @@ public class Frame extends JFrame {
     	JLabel columnLabel = new JLabel("ID           || Stock Tick   ||Stock Name||       Buy        ||        Sell          ||     Amount     ||     Cost");
     	JLabel funds = new JLabel();
     	double current;
+   	double cost;
+    
+    	//GAME PANEL
+    	JPanel gamePanel = new JPanel();
+    	JLabel gameOver = new JLabel("You have lost too much funds. The board are pulling your account! GAME OVER, man.");
+    	JLabel gameOn = new JLabel("You have made a 10% return! The board are extatic and want to see you immediately! You're a real WINNER!");
+    	//
     
 	public Frame(){
 		
@@ -83,11 +90,19 @@ public class Frame extends JFrame {
 			
 			while(res.next()){
 				current = res.getDouble("current");
-				funds.setText("Funds Available: $" + NumberFormat.getNumberInstance().format(current));
 			}
+			
+			res = state.executeQuery("SELECT * FROM portfolio");
+			
+			while(res.next()){
+				cost = cost + res.getDouble("cost");
+			}
+			
+			funds.setText("Funds Available: $" + NumberFormat.getNumberInstance().format(current) + "   Invested: $" + NumberFormat.getNumberInstance().format(cost));
+			
 			//Close connections.
-	        state.close();
-	        con.close();
+	        	state.close();
+	        	con.close();
 	        
 		} catch (SQLException e1) {
 			
@@ -95,7 +110,7 @@ public class Frame extends JFrame {
 		}
 		menuButtonPanel.add(funds);
 		//
-		
+
 		//SEARCH PANEL
 		JButton calc = new JButton("Get Stock Info");
 		JLabel stockLabel = new JLabel("Stock Code:");
@@ -139,7 +154,7 @@ public class Frame extends JFrame {
         	//PORTFOLIO PANEL
         	JPanel portfolioPanel = new JPanel();
         	//
-        
+         
         	//Adding panels to the frame
         	add(menuButtonPanel,BorderLayout.NORTH);
         	add(searchPanel,BorderLayout.CENTER);
@@ -159,6 +174,8 @@ public class Frame extends JFrame {
 					askLabel.setText(null);
 					bidLabel.setText(null);
 					searchPanel.setVisible(true);
+
+					gameState();
 				}
 			}
 		});
@@ -172,7 +189,7 @@ public class Frame extends JFrame {
 				sellPanel.setVisible(false);
 				
 				ArrayList columnNames = new ArrayList();
-		        ArrayList data = new ArrayList();
+		        	ArrayList data = new ArrayList();
 		        
 				try {
 					//Get a connection to DB:
@@ -186,30 +203,29 @@ public class Frame extends JFrame {
 					ResultSet res = state.executeQuery("SELECT * FROM portfolio");
 					
 					ResultSetMetaData md = res.getMetaData();
-		            int columns = md.getColumnCount();
+		            		int columns = md.getColumnCount();
 
-		            //Get column names
-		            for(int i = 1; i <= columns; i++){
-		                columnNames.add(md.getColumnName(i));
-		            }
+		            		//Get column names
+		            		for(int i = 1; i <= columns; i++){
+		                	columnNames.add(md.getColumnName(i));
+		            		}
 		     
-		            //Get row data
-		            while(res.next()){
+		            		//Get row data
+		            		while(res.next()){
 		            	
 						System.out.format("%s, %s, %s, %s, %s, %s\n",  res.getInt("idNum"), res.getString("stocktick"), res.getString("stock"), res.getDouble("ask"), res.getDouble("bid"), res.getInt("amount"), res.getDouble("cost"));
 					
 						ArrayList row = new ArrayList(columns);
 						
-						for(int i = 1; i <= columns; i++)
-						{
+						for(int i = 1; i <= columns; i++){
 							row.add(res.getObject(i));
 						}
 						
 						data.add(row);
-		            }
+		            		}
 		            
-			        state.close();
-			        con.close();
+			        	state.close();
+			        	con.close();
 		            
 				} catch (SQLException ee) {
 						
@@ -217,32 +233,30 @@ public class Frame extends JFrame {
 				}
 				
 				Vector columnNamesVector = new Vector();
-		        Vector dataVector = new Vector();
+		        	Vector dataVector = new Vector();
 
-		        for (int i = 0; i < data.size(); i++)
-		        {
-		            ArrayList subArray = (ArrayList)data.get(i);
-		            Vector subVector = new Vector();
-		            for (int j = 0; j < subArray.size(); j++)
-		            {
-		                subVector.add(subArray.get(j));
-		            }
-		            dataVector.add(subVector);
-		        }
+		        	for (int i = 0; i < data.size(); i++){
+		            		ArrayList subArray = (ArrayList)data.get(i);
+		            		Vector subVector = new Vector();
+		            		for (int j = 0; j < subArray.size(); j++){
+		                		subVector.add(subArray.get(j));
+		            		}
+		            		dataVector.add(subVector);
+		        	}
 
-		        for (int i = 0; i < columnNames.size(); i++ ){
-		            columnNamesVector.add(columnNames.get(i));
-		        }
+		        	for (int i = 0; i < columnNames.size(); i++ ){
+		            	columnNamesVector.add(columnNames.get(i));
+		        	}
 
 
-		        //  Create table with database data    
-		        JTable table = new JTable(dataVector, columnNamesVector);
+		        	//  Create table with database data    
+		        	JTable table = new JTable(dataVector, columnNamesVector);
 				gbcP.gridx = 0;
 				gbcP.gridy = 0;
-		        portfolioPanel.add(columnLabel, gbcP);
+		        	portfolioPanel.add(columnLabel, gbcP);
 				gbcP.gridx = 0;
 				gbcP.gridy = 1;
-		        portfolioPanel.add(table, gbcP);
+		        	portfolioPanel.add(table, gbcP);
 				portfolioPanel.setVisible(true);
 			}
 		});
@@ -287,6 +301,7 @@ public class Frame extends JFrame {
 				buyPanel.revalidate();
 				buyPanel.remove(buy);
 				sellPanel.revalidate();
+				gameState();
 			}
 		});
 		//MAKES BUY PANEL VISIBLE AND HIDES SEARCH PANEL
@@ -325,21 +340,21 @@ public class Frame extends JFrame {
 						}
 					}
 
-			        state.close();
-			        con.close();
+			        	state.close();
+			        	con.close();
 			        
 				} catch (SQLException e1) {
 					
 					e1.printStackTrace();
 				}
-		        seStock.setText("Sell " + words[0] + " at the bid price of: $" + words[2] + ". This will be worth a total of: $" + (seAmount * Double.parseDouble(words[2])));
+		        	seStock.setText("Sell " + words[0] + " at the bid price of: $" + words[2] + ". This will be worth a total of: $" + (seAmount * Double.parseDouble(words[2])));
 				gbcSell.gridx = 0;
 				gbcSell.gridy = 0;
-		        sellPanel.add(seStock, gbcSell);
+		        	sellPanel.add(seStock, gbcSell);
 				gbcSell.gridx = 0;
 				gbcSell.gridy = 2;
-		        sellPanel.add(sell, gbcSell);
-		        sellPanel.setVisible(true);
+		        	sellPanel.add(sell, gbcSell);
+		        	sellPanel.setVisible(true);
 			}
 		});
 		//CREATES QUOTE TO BUY. ADDS QUOTE AND CONFIRM TO BUY PANEL
@@ -372,13 +387,17 @@ public class Frame extends JFrame {
 		//CREATES TRANSACTION TO BUY AND RETURNS TO SEARCH PANEL.		
 		buy.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				stockPurchase(stock.getText(), amount.getText());
-				buyPanel.setVisible(false);
-				searchPanel.setVisible(true);				
-				askLabel.setText(null);
-				bidLabel.setText(null);
-				status.setText("Purchase Complete. You have bought $" + NumberFormat.getNumberInstance().format(amountInt) + " worth of " + words[0] + " shares.");
-				stock.setText(null);
+				if(current >= amountInt){
+					stockPurchase(stock.getText(), amount.getText());	
+					buyPanel.setVisible(false);
+					searchPanel.setVisible(true);				
+					askLabel.setText(null);
+					bidLabel.setText(null);
+					status.setText("Purchase Complete. You have bought $" + NumberFormat.getNumberInstance().format(amountInt) + " worth of " + words[0] + " shares.");
+					stock.setText(null);
+				}else{
+					status.setText("You don't have enough funds. Please select a lower amount.");
+				}
 				
 				//Clear panel for new purchase
 				buyPanel.revalidate();
@@ -405,10 +424,27 @@ public class Frame extends JFrame {
 		Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(close);
 	}
 	//Calculating shares bought.
-	public void amountCalc(String shares){
+	private void amountCalc(String shares){
 		askInt = Double.parseDouble(words[1]);
 		amountInt = Integer.parseInt(shares);
 		amountInt = amountInt * askInt;
+
+	}
+	//Calculating the final game state. If the player makes or loses 10% of the funds, this method is invoked.
+	private void gameState(){
+		add(gamePanel,BorderLayout.CENTER);
+		
+		if((cost + current) <= loss){
+			System.out.println("The Game is Up.");
+			gamePanel.add(gameOver);
+			searchPanel.setVisible(false);
+			gamePanel.setVisible(true);
+		}else if((cost + current) >= profit){
+			System.out.println("The Game is On!");
+			gamePanel.add(gameOn);
+			searchPanel.setVisible(false);
+			gamePanel.setVisible(true);
+		}
 
 	}
 	//Search method.
@@ -447,22 +483,24 @@ public class Frame extends JFrame {
 	    	}
 		gbcS.gridx = 2;
 		gbcS.gridy = 3;
-	    searchPanel.add(bpAction, gbcS);
-	    gbcS.gridx = 2;
+	    	searchPanel.add(bpAction, gbcS);
+	    	gbcS.gridx = 2;
 		gbcS.gridy = 4;
-	    searchPanel.add(seAction, gbcS);
-	    status.setText("Information Retrieved");
+	    	searchPanel.add(seAction, gbcS);
+	    	status.setText("Information Retrieved");
 
 	}
 	//Buying stock. An INSERT of retrieved details is made to the DB using prepared statements. A calculation is also made to update the funds.
 	public void stockPurchase(String stockCode, String stockAmount){
-
+		cost = 0;
+		
 		System.out.println(stockAmount);
 		System.out.println(stockCode);
 		System.out.println(words[0]);
 		
 		try {
 			Connection con = DriverManager.getConnection(dbUrl, name, pw);
+			Statement state = con.createStatement();
 			prepSt = con.prepareStatement("INSERT INTO portfolio (stocktick, stock, ask, bid, amount, cost)"
 					+ " VALUES (?, ?, ?, ?, ?, ?)");
 			prepSt.setString(1, stockCode);
@@ -483,22 +521,30 @@ public class Frame extends JFrame {
 			prepSt.executeUpdate();
 			
 			System.out.println("Update Complete");
-			funds.setText("Funds Available: $" + NumberFormat.getNumberInstance().format(current));
 			
-	        prepSt.close();
-	        con.close();
+			ResultSet res = state.executeQuery("SELECT * FROM portfolio");
+			
+			while(res.next()){
+				cost = cost + res.getDouble("cost");
+			}
+			
+			funds.setText("Funds Available: $" + NumberFormat.getNumberInstance().format(current) + "   Invested: $" + NumberFormat.getNumberInstance().format(cost));
+			
+	        	prepSt.close();
+	        	con.close();
 		}
 		
 		catch (SQLException e) {
 			
 			e.printStackTrace();
 		}
-	    searchPanel.remove(bpAction);
-	    searchPanel.remove(seAction);
+	    	searchPanel.remove(bpAction);
+	    	searchPanel.remove(seAction);
 	}
 	//Selling stock. The DB is contacted to retrieve the amount of stock bought for a calculation to update the funds and then the stock is removed from the DB.
 	public void stockSold(String stockCode){	
 		askInt = Double.parseDouble(words[2]);
+		cost = 0;
 		
 		try {
 			
@@ -526,11 +572,18 @@ public class Frame extends JFrame {
 			prepSt.executeUpdate();
 			
 			System.out.println("Update Complete");
-			funds.setText("Funds Available: $" + NumberFormat.getNumberInstance().format(current));
+			
+			res = state.executeQuery("SELECT * FROM portfolio");
+			
+			while(res.next()){
+				cost = cost + res.getDouble("cost");
+			}
+			
+			funds.setText("Funds Available: $" + NumberFormat.getNumberInstance().format(current) + "   Invested: $" + NumberFormat.getNumberInstance().format(cost));
 			
 			prepSt.close();
 			state.close();
-	        con.close();
+	        	con.close();
 		} 
 		
 		catch (SQLException e) {
@@ -539,8 +592,8 @@ public class Frame extends JFrame {
 		}
 
 		status.setText("Sale Complete. You have sold $" + NumberFormat.getNumberInstance().format(amountInt) + " worth of " + stock.getText() + " shares.");
-	    searchPanel.remove(bpAction);
-	    searchPanel.remove(seAction);
+	    	searchPanel.remove(bpAction);
+	    	searchPanel.remove(seAction);
 	}
 	
 	
